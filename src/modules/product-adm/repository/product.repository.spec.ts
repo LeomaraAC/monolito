@@ -42,4 +42,34 @@ describe('Product repository unit test', () => {
         expect(productDb.stock).toBe(product.stock);
         expect(productDb.purchasePrice).toBe(product.purchasePrice);
     });
+
+    it('should find a product by id', async () => {
+        const productProps = {
+            id: '1',
+            name: 'Product 1',
+            description: 'Descriprion product 1',
+            stock: 10,
+            purchasePrice: 50,
+            createdAt: new Date(),
+            updatedAt: new Date()
+        };
+
+        await ProductModel.create(productProps);
+
+        const repository = new ProductRepository();
+        const product = await repository.find(productProps.id);
+
+        expect(product.id.id).toBe(productProps.id);
+        expect(product.name).toBe(productProps.name);
+        expect(product.description).toBe(productProps.description);
+        expect(product.stock).toBe(productProps.stock);
+        expect(product.purchasePrice).toBe(productProps.purchasePrice);
+    });
+
+    it('should throw error when not found product', async () => {
+        const repository = new ProductRepository();
+        await expect(async () => {
+            await repository.find('1');
+        }).rejects.toThrowError('Product 1 not found');
+    });
 });
