@@ -13,7 +13,7 @@ const product = new Product({
 const mockRepository = () => {
     return {
         add: jest.fn(),
-        find: jest.fn().mockReturnValue(product)
+        find: jest.fn().mockReturnValue(Promise.resolve(product))
     };
 };
 
