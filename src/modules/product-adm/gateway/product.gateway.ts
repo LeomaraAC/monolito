@@ -1,4 +1,6 @@
-import GatewayInterface from '../../@shared/gateway/gateway.interface';
 import Product from '../domain/product.entity';
 
-export default interface ProductGateway extends GatewayInterface<Product> {}
+export default interface ProductGateway {
+    add(entity: Product): Promise<void>;
+    find(id: string): Promise<Product>;
+}
