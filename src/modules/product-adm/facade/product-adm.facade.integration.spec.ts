@@ -1,19 +1,13 @@
 import {Sequelize} from 'sequelize-typescript';
 import ProductModel from '../repository/product.model';
 import ProductAdmFacadeFactory from '../factory/product-adm.facade.factory';
+import {initSequelize} from '../../@shared/test/base-test';
 
 describe('Product adm facade integration test', () => {
     let sequelize: Sequelize;
 
     beforeEach(async () => {
-        sequelize = new Sequelize({
-            dialect: 'sqlite',
-            storage: ':memory:',
-            logging: false,
-            sync: {force: true}
-        });
-        sequelize.addModels([ProductModel]);
-        await sequelize.sync();
+        sequelize = await initSequelize([ProductModel]);
     });
 
     afterEach(async () => {

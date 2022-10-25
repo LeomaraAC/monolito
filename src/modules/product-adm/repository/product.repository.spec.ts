@@ -3,20 +3,13 @@ import ProductModel from './product.model';
 import Product from '../domain/product.entity';
 import Id from '../../@shared/domain/value-object/id.value-object';
 import ProductRepository from './product.repository';
+import {initSequelize} from '../../@shared/test/base-test';
 
 describe('Product repository unit test', () => {
     let sequelize: Sequelize;
 
     beforeEach(async () => {
-        sequelize = new Sequelize({
-            logging: false,
-            dialect: 'sqlite',
-            storage: ':memory:',
-            sync: {force: true}
-        });
-
-        await sequelize.addModels([ProductModel]);
-        await sequelize.sync();
+        sequelize = await initSequelize([ProductModel]);
     });
 
     afterEach(async () => {
