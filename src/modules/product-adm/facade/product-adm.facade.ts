@@ -6,14 +6,14 @@ import {AddProductInputDto, AddProductOutputDto} from '../usecase/add-product/ad
 import {CheckStockInputDto, CheckStockOutputDto} from '../usecase/check-stock/check-stock.dto';
 
 export interface UseCasesProps {
-    addUseCase: UseCaseInterface<AddProductInputDto, AddProductOutputDto>;
-    stockUseCase: UseCaseInterface<CheckStockInputDto, CheckStockOutputDto>;
+    addUseCase: UseCaseInterface;
+    stockUseCase: UseCaseInterface;
 }
 
 
 export default class ProductAdmFacade implements ProductAdmFacadeInterface {
-    private _addUseCase: UseCaseInterface<AddProductInputDto, AddProductOutputDto>;
-    private _stockUseCase: UseCaseInterface<CheckStockInputDto, CheckStockOutputDto>;
+    private _addUseCase: UseCaseInterface;
+    private _stockUseCase: UseCaseInterface;
 
 
     constructor(props: UseCasesProps) {

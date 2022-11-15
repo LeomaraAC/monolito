@@ -2,7 +2,7 @@ import UseCaseInterface from '../../../@shared/usecase/use-case.interface';
 import ProductGateway from '../../gateway/product.gateway';
 import {CheckStockInputDto, CheckStockOutputDto} from './check-stock.dto';
 
-export default class CheckStockUsecase implements UseCaseInterface<CheckStockInputDto, CheckStockOutputDto> {
+export default class CheckStockUsecase implements UseCaseInterface {
     private _repository: ProductGateway;
 
     constructor(repository: ProductGateway) {

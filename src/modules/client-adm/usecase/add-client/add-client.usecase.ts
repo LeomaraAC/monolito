@@ -4,7 +4,7 @@ import ClientGateway from '../../gateway/client.gateway';
 import Id from '../../../@shared/domain/value-object/id.value-object';
 import Client from '../../domain/client.entity';
 
-export default class AddClientUsecase implements UseCaseInterface<AddClientInputDto, AddClientOutputDto> {
+export default class AddClientUsecase implements UseCaseInterface {
 
     constructor(private _clientRepository: ClientGateway) {
     }

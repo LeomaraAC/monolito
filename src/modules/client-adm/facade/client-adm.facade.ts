@@ -6,13 +6,13 @@ import {FindClientInputDto, FindClientOutputDto} from '../usecase/find-client/fi
 import {AddClientInputDto, AddClientOutputDto} from '../usecase/add-client/add-client.dto';
 
 interface UsecaseProps {
-    findUsecase: UseCaseInterface<FindClientInputDto, FindClientOutputDto>;
-    addUsecase: UseCaseInterface<AddClientInputDto, AddClientOutputDto>;
+    findUsecase: UseCaseInterface;
+    addUsecase: UseCaseInterface;
 }
 
 export default class ClientAdmFacade implements ClientAdmFacadeInterface {
-    private _findUsecase: UseCaseInterface<FindClientInputDto, FindClientOutputDto>;
-    private _addUsecase: UseCaseInterface<AddClientInputDto, AddClientOutputDto>;
+    private _findUsecase: UseCaseInterface;
+    private _addUsecase: UseCaseInterface;
 
 
     constructor(props: UsecaseProps) {
