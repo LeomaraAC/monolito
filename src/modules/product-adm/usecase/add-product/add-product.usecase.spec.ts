@@ -1,12 +1,6 @@
 import {AddProductInputDto} from './add-product.dto';
 import AddProductUsecase from './add-product.usecase';
-
-const mockRepository = () => {
-    return {
-        add: jest.fn(),
-        find: jest.fn()
-    };
-};
+import {MockProductRepository} from '../../@test/mock/repository.mock';
 
 describe('Add product use case unit test', () => {
     it('should add a new product', async () => {
@@ -16,7 +10,7 @@ describe('Add product use case unit test', () => {
             stock: 5,
             purchasePrice: 140
         };
-        const repository = mockRepository();
+        const repository = MockProductRepository();
         const usecase = new AddProductUsecase(repository);
         const output = await usecase.execute(input);
 

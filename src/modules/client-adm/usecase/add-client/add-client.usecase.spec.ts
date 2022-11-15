@@ -1,15 +1,9 @@
 import AddClientUsecase from './add-client.usecase';
-
-const MockRepository = () => {
-    return {
-        add: jest.fn(),
-        find: jest.fn(),
-    };
-};
+import {MockClientRepository} from '../../@test/mock/repository.mock';
 
 describe('Add client use case unit test', () => {
     it('should add a client without id', async () => {
-        const repository = MockRepository();
+        const repository = MockClientRepository();
         const usecase = new AddClientUsecase(repository);
 
         const input = {
@@ -28,7 +22,7 @@ describe('Add client use case unit test', () => {
     });
 
     it('should add a client with id', async () => {
-        const repository = MockRepository();
+        const repository = MockClientRepository();
         const usecase = new AddClientUsecase(repository);
 
         const input = {

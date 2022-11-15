@@ -1,6 +1,7 @@
 import Product from '../../domain/product.entity';
 import Id from '../../../@shared/domain/value-object/id.value-object';
 import FindProductUsecase from './find-product.usecase';
+import {MockStoreCatalogRepository} from '../../@test/mock/repository.mock';
 
 const product = new Product({
     id: new Id('1'),
@@ -9,16 +10,10 @@ const product = new Product({
     salesPrice: 100,
 });
 
-const MockRepository = () => {
-    return {
-        findAll: jest.fn(),
-        find: jest.fn().mockReturnValue(Promise.resolve(product)),
-    };
-};
-
 describe('find a product usecase unit test', () => {
     it('should find a product', async () => {
-        const productRepository = MockRepository();
+        const productRepository = MockStoreCatalogRepository();
+        productRepository.find.mockReturnValue(Promise.resolve(product));
         const usecase = new FindProductUsecase(productRepository);
 
         const result = await usecase.execute({id: product.id.id});
@@ -31,7 +26,7 @@ describe('find a product usecase unit test', () => {
     });
 
     it('should throw error when not found product', async () => {
-        const productRepository = MockRepository();
+        const productRepository = MockStoreCatalogRepository();
         productRepository.find.mockRejectedValue(new Error('Product not found'));
         const usecase = new FindProductUsecase(productRepository);
         await expect(usecase.execute({id: '1'})).rejects.toThrowError('Product not found');

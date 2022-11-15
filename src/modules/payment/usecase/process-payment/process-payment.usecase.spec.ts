@@ -1,6 +1,7 @@
 import Transaction from '../../domain/transaction';
 import Id from '../../../@shared/domain/value-object/id.value-object';
 import ProcessPaymentUseCase from './process-payment.usecase';
+import {MockPaymentRepository} from '../../@test/mock/repository.mock';
 
 const transactionApproved = new Transaction({
     id: new Id('1'),
@@ -16,16 +17,9 @@ const transactionDeclined = new Transaction({
     status: 'declined',
 });
 
-const MockRepository = () => {
-    return {
-        save: jest.fn()
-    };
-};
-
-
 describe('Process payment usecase unit test', () => {
     it('should approve a transaction', async () => {
-        const paymentRepository = MockRepository();
+        const paymentRepository = MockPaymentRepository();
         paymentRepository.save.mockReturnValue(Promise.resolve(transactionApproved));
         const usecase = new ProcessPaymentUseCase(paymentRepository);
         const input = {
@@ -45,7 +39,7 @@ describe('Process payment usecase unit test', () => {
     });
 
     it('should decline a transaction', async () => {
-        const paymentRepository = MockRepository();
+        const paymentRepository = MockPaymentRepository();
         paymentRepository.save.mockReturnValue(Promise.resolve(transactionDeclined));
         const usecase = new ProcessPaymentUseCase(paymentRepository);
         const input = {

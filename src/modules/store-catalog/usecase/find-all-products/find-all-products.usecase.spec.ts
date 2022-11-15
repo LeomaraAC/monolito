@@ -1,20 +1,15 @@
 import Product from '../../domain/product.entity';
 import Id from '../../../@shared/domain/value-object/id.value-object';
 import FindAllProductsUsecase from './find-all-products.usecase';
+import {MockStoreCatalogRepository} from '../../@test/mock/repository.mock';
 
 const product1 = new Product({id: new Id('1'), name: 'P1', description: 'PD1', salesPrice: 100});
 const product2 = new Product({id: new Id('2'), name: 'P2', description: 'PD2', salesPrice: 200});
-const mockRepository = () => {
-    return {
-        findAll: jest.fn().mockReturnValue(Promise.resolve([product1, product2])),
-        find: jest.fn()
-    };
-
-};
 
 describe('Find all products unit test', () => {
     it('should find all products', async () => {
-        const repository = mockRepository();
+        const repository = MockStoreCatalogRepository();
+        repository.findAll.mockReturnValue(Promise.resolve([product1, product2]));
         const usecase = new FindAllProductsUsecase(repository);
         const result = await usecase.execute();
 

@@ -1,6 +1,7 @@
 import FindClientUsecase from './find-client.usecase';
 import Client from '../../domain/client.entity';
 import Id from '../../../@shared/domain/value-object/id.value-object';
+import {MockClientRepository} from '../../@test/mock/repository.mock';
 
 const client = new Client({
     id: new Id('1'),
@@ -9,16 +10,10 @@ const client = new Client({
     address: 'Address 1',
 });
 
-const MockRepository = () => {
-    return {
-        add: jest.fn(),
-        find: jest.fn().mockReturnValue(Promise.resolve(client)),
-    };
-};
-
 describe('Find client use case unit test', () => {
     it('should find a client', async () => {
-        const repository = MockRepository();
+        const repository = MockClientRepository();
+        repository.find.mockReturnValue(Promise.resolve(client));
         const usecase = new FindClientUsecase(repository);
 
         const result = await usecase.execute({id: client.id.id});
