@@ -13,11 +13,15 @@ Caso prefira não utilizar o docker, tenha instalado o node.js.
 ```sh
 https://github.com/LeomaraAC/monolito.git
 ```
-2. Instale as dependências
+2. Crie a imagem docker
+```sh
+sh create-docker-image.sh
+```
+3. Instale as dependências
 ```sh
 docker-compose run --rm npm install
 ```
-3. Rode os testes
+4. Rode os testes
 ```sh
 docker-compose run npm --rm test
 ```
