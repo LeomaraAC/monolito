@@ -67,4 +67,33 @@ describe('checkout repository unit test', () => {
         expect(productModelToJson(orderDb.products[1])).toEqual(productToJson(p2));
 
     });
+
+    it('should find an order', async () => {
+        await OrderModel.create({
+                id: order.id.id,
+                status: order.status,
+                clientId: order.client.id.id,
+                products: order.products.map(product => ({
+                    id: product.id.id,
+                    name: product.name,
+                    description: product.description,
+                    salesPrice: product.salesPrice
+                }))
+            },
+            {include: [{model: ClientModel}, {model: ProductModel}]});
+        const repository = new CheckoutRepository();
+
+        const orderFound = await repository.findOrder(order.id.id);
+        expect(orderFound).toBeDefined();
+        expect(orderFound.id.id).toBe(order.id.id);
+        expect(orderFound.status).toBe(order.status);
+        expect(orderFound.total).toBe(order.total);
+        expect(orderFound.client.id.id).toBe(order.client.id.id);
+        expect(orderFound.client.name).toBe(order.client.name);
+        expect(orderFound.client.address).toBe(order.client.address);
+        expect(orderFound.client.email).toBe(order.client.email);
+        expect(orderFound.products.length).toBe(order.products.length);
+        expect(productToJson(orderFound.products[0])).toEqual(productToJson(p1));
+        expect(productToJson(orderFound.products[1])).toEqual(productToJson(p2));
+    });
 });
