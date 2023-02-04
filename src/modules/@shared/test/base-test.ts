@@ -4,8 +4,7 @@ const initSequelize = async (models: any[]) => {
     const sequelize = new Sequelize({
         logging: false,
         dialect: 'sqlite',
-        storage: ':memory:',
-        sync: {force: true}
+        storage: ':memory:'
     });
 
     await sequelize.addModels(models);
