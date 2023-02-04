@@ -23,7 +23,7 @@ docker-compose run --rm npm install
 ```
 4. Rode os testes
 ```sh
-docker-compose run npm --rm test
+docker-compose run --rm npm test
 ```
 
 ## Licença
