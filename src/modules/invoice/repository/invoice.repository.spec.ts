@@ -101,12 +101,7 @@ describe('invoice repository unit test', () => {
             complement: invoice.address.complement,
             city: invoice.address.city,
             state: invoice.address.state,
-            zipCode: invoice.address.zipCode,
-            items: invoice.items.map(item => ({
-                id: item.id.id,
-                name: item.name,
-                price: item.price
-            }))
+            zipCode: invoice.address.zipCode
         });
 
         for (const item of invoice.items) {
