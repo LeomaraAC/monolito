@@ -14,7 +14,7 @@ export default class ProductModel extends Model {
     @Column({allowNull: false})
     name: string;
 
-    @Column({allowNull: false})
+    @Column({allowNull: false, field: 'purchasePrice'})
     price: number;
 
     @BelongsToMany(() => InvoiceModel, {
