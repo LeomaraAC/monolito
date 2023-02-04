@@ -51,6 +51,14 @@ describe('invoice repository unit test', () => {
 
     beforeEach(async () => {
         sequelize = await initSequelize([InvoiceModel, ProductModel, InvoiceProductModel]);
+
+        for (const product of invoice.items) {
+            await ProductModel.create({
+                id: product.id.id,
+                name: product.name,
+                price: product.price
+            });
+        }
     });
 
     afterEach(async () => {
@@ -99,7 +107,15 @@ describe('invoice repository unit test', () => {
                 name: item.name,
                 price: item.price
             }))
-        }, {include: [{model: ProductModel}]});
+        });
+
+        for (const item of invoice.items) {
+            await InvoiceProductModel.create({
+                invoiceId: invoice.id.id,
+                productId: item.id.id
+            });
+        }
+
         const invoiceFound = await repository.find(invoice.id.id);
 
         expect(invoiceFound).toBeDefined();

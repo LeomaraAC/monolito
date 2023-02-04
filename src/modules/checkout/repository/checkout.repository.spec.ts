@@ -39,6 +39,10 @@ describe('checkout repository unit test', () => {
             email: client.email,
             address: client.address,
         });
+
+        for (const product of order.products) {
+            await ProductModel.create({...productToJson(product)});
+        }
     });
 
     afterEach(async () => {
@@ -72,15 +76,15 @@ describe('checkout repository unit test', () => {
         await OrderModel.create({
                 id: order.id.id,
                 status: order.status,
-                clientId: order.client.id.id,
-                products: order.products.map(product => ({
-                    id: product.id.id,
-                    name: product.name,
-                    description: product.description,
-                    salesPrice: product.salesPrice
-                }))
+                clientId: order.client.id.id
             },
-            {include: [{model: ClientModel}, {model: ProductModel}]});
+            {include: [{model: ClientModel}]});
+        for (const product of order.products) {
+            await OrderProductModel.create({
+                orderId: order.id.id,
+                productId: product.id.id
+            });
+        }
         const repository = new CheckoutRepository();
 
         const orderFound = await repository.findOrder(order.id.id);

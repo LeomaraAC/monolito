@@ -6,21 +6,22 @@ import ProductModel from './model/product.model';
 import Client from '../domain/client.entity';
 import Id from '../../@shared/domain/value-object/id.value-object';
 import Product from '../domain/product.entity';
+import OrderProductModel from './model/order-product.model';
 
 export default class CheckoutRepository implements CheckoutGateway {
     async addOrder(order: Order): Promise<void> {
         await OrderModel.create({
                 id: order.id.id,
                 status: order.status,
-                clientId: order.client.id.id,
-                products: order.products.map(product => ({
-                    id: product.id.id,
-                    name: product.name,
-                    description: product.description,
-                    salesPrice: product.salesPrice
-                }))
+                clientId: order.client.id.id
             },
-            {include: [{model: ClientModel}, {model: ProductModel}]});
+            {include: [{model: ClientModel}]});
+        for (const product of order.products) {
+            await OrderProductModel.create({
+                orderId: order.id.id,
+                productId: product.id.id
+            });
+        }
     }
 
     async findOrder(id: string): Promise<Order | null> {

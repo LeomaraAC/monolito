@@ -5,6 +5,7 @@ import ProductModel from './model/product.model';
 import Id from '../../@shared/domain/value-object/id.value-object';
 import Address from '../domain/address.value-object';
 import Product from '../domain/product.entity';
+import InvoiceProductModel from './model/invoice-product.model';
 
 export default class InvoiceRepository implements InvoiceGateway {
     async find(id: string): Promise<Invoice> {
@@ -43,13 +44,14 @@ export default class InvoiceRepository implements InvoiceGateway {
             complement: invoice.address.complement,
             city: invoice.address.city,
             state: invoice.address.state,
-            zipCode: invoice.address.zipCode,
-            items: invoice.items.map(item => ({
-                id: item.id.id,
-                name: item.name,
-                price: item.price
-            }))
-        }, {include: [{model: ProductModel}]});
+            zipCode: invoice.address.zipCode
+        });
+        for (const item of invoice.items) {
+            await InvoiceProductModel.create({
+                invoiceId: invoice.id.id,
+                productId: item.id.id
+            });
+        }
     }
 
 }

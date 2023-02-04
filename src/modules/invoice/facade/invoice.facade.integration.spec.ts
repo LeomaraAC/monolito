@@ -35,6 +35,11 @@ describe('invoice facade integration test', () => {
                 }
             ]
         };
+        await ProductModel.create({
+            id: input.items[0].id,
+            name: input.items[0].name,
+            price: input.items[0].price
+        });
         const invoice = await facade.generate(input);
 
         const invoiceDb = await InvoiceModel.findOne({where: {id: invoice.id}, include: [{model: ProductModel}]});
